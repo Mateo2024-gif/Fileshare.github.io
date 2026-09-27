@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fileshare - Descargas Seguras y Verificadas</title>
+  <style>
+    :root {
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --safe-green: #16a34a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    /* Cabecera basada en tu diseño */
+    header {
+      background-color: var(--card-bg);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background-color: var(--primary);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    .logo-icon svg {
+      width: 24px;
+      height: 24px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .brand-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1e293b;
+      letter-spacing: -0.5px;
+    }
+
+    .search-bar {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 0.6rem 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      outline: none;
+      font-size: 0.95rem;
+    }
+
+    .search-bar input:focus {
+      border-color: var(--primary);
+    }
+
+    /* Contenido principal */
+    container {
+      display: block;
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+    }
+
+    /* Catálogo de archivos */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .app-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .badge-safe {
+      background-color: #dcfce7;
+      color: var(--safe-green);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      border: 1px solid #bbf7d0;
+    }
+
+    .card-body {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    /* Sección de Seguridad y Hashes */
+    .security-info {
+      background-color: #f1f5f9;
+      border-radius: 6px;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 0.8rem;
+    }
+
+    .hash-title {
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 0.25rem;
+    }
+
+    .hash-value {
+      font-family: monospace;
+      color: #0f172a;
+      word-break: break-all;
+      background: #e2e8f0;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+    }
+
+    .vt-link {
+      display: inline-block;
+      margin-top: 0.5rem;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .vt-link:hover {
+      text-decoration: underline;
+    }
+
+    .btn-download {
+      display: block;
+      text-align: center;
+      background-color: var(--primary);
+      color: white;
+      text-decoration: none;
+      padding: 0.75rem;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background 0.2s ease;
+    }
+
+    .btn-download:hover {
+      background-color: var(--primary-hover);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cabecera con el diseño de tu logotipo -->
+  <header>
+    <a href="#" class="brand">
+      <div class="logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 5v14M19 12l-7 7-7-7" />
+        </svg>
+      </div>
+      <span class="brand-name">Fileshare</span>
+    </a>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar programas o archivos seguros...">
+    </div>
+  </header>
+
+  <container>
+    <section class="hero">
+      <h1>Repositorio de Descargas Limpias</h1>
+      <p>Todos los archivos están analizados con VirusTotal y respaldados por firmas de integridad SHA-256.</p>
+    </section>
+
+    <!-- Lista de programas/archivos -->
+    <div class="grid">
+
+      <!-- Elemento 1 -->
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <h2 class="app-title">7-Zip 24.08</h2>
+            <span class="badge-safe">✓ 0/70 VirusTotal</span>
+          </div>
+          <p class="card-body">Compresor y descompresor de archivos de código abierto con alta tasa de compresión.</p>
+          
+          <div class="security-info">
+            <div class="hash-title">SHA-256 Hash:</div>
+            <div class="hash-value">a83610e7b8f95c4786d52fdf3d1a88b1f55a1d77b8b2e3e2a1b0c9d8e7f6a5b4</div>
+            <a href="https://www.virustotal.com" target="_blank" class="vt-link">Ver informe completo de auditoría ↗</a>
+          </div>
+        </div>
+        <a href="#" class="btn-download">Descargar archivo</a>
+      </div>
+
+      <!-- Elemento 2 -->
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <h2 class="app-title">VLC Media Player</h2>
+            <span class="badge-safe">✓ 0/70 VirusTotal</span>
+          </div>
+          <p class="card-body">Reproductor multimedia multiplataforma libre y de código abierto que reproduce la mayoría de archivos.</p>
+          
+          <div class="security-info">
+            <div class="hash-title">SHA-256 Hash:</div>
+            <div class="hash-value">5f4dcc3b5aa765d61d8327deb882cf992b32a01127c4f54541057dd9d2b71012</div>
+            <a href="https://www.virustotal.com" target="_blank" class="vt-link">Ver informe completo de auditoría ↗</a>
+          </div>
+        </div>
+        <a href="#" class="btn-download">Descargar archivo</a>
+      </div>
+
+      <!-- Elemento 3 -->
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <h2 class="app-title">Notepad++ 8.6</h2>
+            <span class="badge-safe">✓ 0/70 VirusTotal</span>
+          </div>
+          <p class="card-body">Editor de código fuente libre que soporta varios lenguajes de programación en entorno Windows.</p>
+          
+          <div class="security-info">
+            <div class="hash-title">SHA-256 Hash:</div>
+            <div class="hash-value">8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918</div>
+            <a href="https://www.virustotal.com" target="_blank" class="vt-link">Ver informe completo de auditoría ↗</a>
+          </div>
+        </div>
+        <a href="#" class="btn-download">Descargar archivo</a>
+      </div>
+
+    </div>
+  </container>
+
+</body>
+</html>
